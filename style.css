@@ -93,7 +93,7 @@ button, input, select { font: inherit; }
 }
 
 #hero {
-  min-height: 60vh;
+  min-height: 50vh;
   background:
     linear-gradient(rgba(17, 26, 45, 0.46), rgba(17, 26, 45, 0.68)),
     url('https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
@@ -378,7 +378,7 @@ button.secondary {
 }
 
 @media (min-width: 900px) {
-  #hero { min-height: 80vh; }
+  #hero { min-height: 60vh; }
   #app { padding: 40px 40px 4.5rem; }
   .sheet-panel {
     width: min(720px, calc(100% - 2rem));

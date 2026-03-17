@@ -643,6 +643,9 @@ window.addEventListener('hashchange', () => activateTab(location.hash));
 
 renderAll();
 setAdminState(localStorage.getItem('lyon80_admin') === 'true');
-activateTab(location.hash);
+if (!location.hash) {
+  history.replaceState(null, '', '#overview');
+}
+activateTab(location.hash || '#overview');
 updateCountdown();
 setInterval(updateCountdown, 60000);
