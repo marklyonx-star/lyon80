@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lyon Family · Great Britain 2026</title>
+  <meta name="description" content="Private trip site for the Lyon family · John's 80th Birthday · Edinburgh & London · April 2026" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav id="nav">
+    <div class="nav-brand">
+      <span class="nav-crown">♛</span>
+      <span>Lyon · GB 2026</span>
+    </div>
+    <div class="nav-tabs" id="nav-tabs">
+      <a href="#overview" class="nav-tab active">Overview</a>
+      <a href="#itinerary" class="nav-tab">Itinerary</a>
+      <a href="#flights" class="nav-tab">Flights</a>
+      <a href="#hotels" class="nav-tab">Hotels</a>
+      <a href="#travelers" class="nav-tab">Travelers</a>
+      <a href="#contacts" class="nav-tab">Contacts</a>
+      <a href="#reservations" class="nav-tab">Reservations</a>
+      <a href="#discover" class="nav-tab">Discover</a>
+      <a href="#decisions" class="nav-tab admin-only">Decisions <span id="decisions-badge" class="badge nav-badge admin-only">5</span></a>
+      <a href="#financials" class="nav-tab admin-only">Financials</a>
+      <a href="#submissions" class="nav-tab admin-only">Submissions <span id="submissions-badge" class="badge nav-badge admin-only">0</span></a>
+    </div>
+    <button id="admin-toggle" title="Admin access">🔒</button>
+  </nav>
+
+  <section id="hero">
+    <div class="hero-overlay">
+      <div class="hero-occasion">John Lyon's 80th Birthday</div>
+      <h1 class="hero-title">Lyon Family<br />Great Britain 2026</h1>
+      <p class="hero-sub">Edinburgh · London · April 25 – May 4</p>
+      <div id="countdown" class="countdown"></div>
+    </div>
+  </section>
+
+  <main id="app">
+    <section id="overview" class="pane active"></section>
+    <section id="itinerary" class="pane"></section>
+    <section id="flights" class="pane"></section>
+    <section id="hotels" class="pane"></section>
+    <section id="travelers" class="pane"></section>
+    <section id="contacts" class="pane"></section>
+    <section id="reservations" class="pane"></section>
+    <section id="discover" class="pane"></section>
+    <section id="decisions" class="pane admin-only"></section>
+    <section id="financials" class="pane admin-only"></section>
+    <section id="submissions" class="pane admin-only"></section>
+  </main>
+
+  <footer class="site-footer">
+    <div>Lyon Family · Great Britain 2026</div>
+    <div>Celebrating John Lyon's 80th Birthday</div>
+    <div>Built with love by Mark Lyon</div>
+  </footer>
+
+  <button id="fab-add-place" class="fab-add-place" aria-label="Add a place">＋</button>
+
+  <div id="submission-modal" class="sheet-modal hidden">
+    <div class="sheet-backdrop"></div>
+    <div class="sheet-panel">
+      <div class="row" style="margin-bottom: 0.75rem;">
+        <div>
+          <div class="label">Guest Submission</div>
+          <h3 id="submission-step-title">Step 1 of 2</h3>
+        </div>
+        <button id="submission-close" class="secondary">Close</button>
+      </div>
+      <div id="submission-step-1"></div>
+      <div id="submission-step-2" class="hidden"></div>
+    </div>
+  </div>
+
+  <form name="lyon80-submission" data-netlify="true" netlify-honeypot="bot-field" hidden>
+    <input type="hidden" name="form-name" value="lyon80-submission" />
+    <input type="text" name="bot-field" />
+    <input type="text" name="submission_type" />
+    <input type="text" name="name" />
+    <input type="text" name="city" />
+  </form>
+
+  <div id="admin-modal" class="modal hidden">
+    <div class="modal-box">
+      <h3>Admin Access</h3>
+      <input type="password" id="admin-password" placeholder="Enter password" />
+      <button id="admin-submit">Unlock</button>
+      <button id="admin-cancel" class="secondary">Cancel</button>
+      <p id="admin-error" class="hidden error-text">Incorrect password</p>
+    </div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
