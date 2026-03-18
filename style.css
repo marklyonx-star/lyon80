@@ -202,7 +202,7 @@ button, input, select { font: inherit; }
   box-shadow: 0 0 0 4px rgba(26,39,68,0.08);
 }
 .timeline-dot.confirmed { background: var(--green); }
-.timeline-dot.tbd, .timeline-dot.pending { background: var(--amber); }
+.timeline-dot.tbd, .timeline-dot.pending, .timeline-dot.dinner { background: var(--amber); }
 .timeline-dot.travel { background: var(--navy-light); }
 .timeline-dot.leisure { background: #7c7c7c; }
 .timeline-content strong { display: block; font-size: 1rem; }

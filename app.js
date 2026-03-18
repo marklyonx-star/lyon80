@@ -341,10 +341,11 @@ function contactsHTML() {
 
 function reservationsHTML() {
   return `
-    <div class="section-head"><h2>Reservations</h2><p>Dining tracker for the trip. Reservations are being coordinated via Four Seasons concierge.</p></div>
+    <div class="section-head"><h2>Reservations</h2><p>Confirmed dinner reservations for the trip.</p></div>
     <div class="grid two">
       ${mergedReservations.map(r => card(r.restaurant, `
-        <div class="muted">${r.city}${r.area ? ` · ${r.area}` : ''}</div>
+        <div class="muted">${fmtDateTime(r.date)} · ${r.time}${r.area ? ` · ${r.area}` : ''}</div>
+        <div class="small" style="margin-top:.35rem;">${r.cuisine || ''}${r.in_hotel ? ' · In-hotel' : ''}</div>
         <div class="${statusClass(r.status)}" style="margin-top:.5rem;">${r.status}</div>
         <div class="small" style="margin-top:.6rem;">Guests: ${r.guests}</div>
         ${r.address ? `<div class="small"><a href="${r.maps_url}" target="_blank">${r.address}</a></div>` : ''}
