@@ -215,7 +215,7 @@ function flightsHTML() {
 
 function hotelsHTML() {
   const hotelHeroMap = {
-    'fraser-suites-edinburgh': './assets/fraser-suites.jpeg',
+    'fraser-suites': './assets/fraser-suites.jpeg',
     'four-seasons-london': './assets/Fourseasons.jpeg'
   };
 
