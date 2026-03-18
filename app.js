@@ -351,6 +351,7 @@ function reservationsHTML() {
         ${r.address ? `<div class="small"><a href="${r.maps_url}" target="_blank">${r.address}</a></div>` : ''}
         ${r.phone ? `<div class="small"><a href="tel:${r.phone}">${r.phone}</a></div>` : ''}
         ${r.website ? `<div class="small"><a href="${r.website}" target="_blank">Website</a></div>` : ''}
+        ${r.instagram ? `<div class="small"><a href="${r.instagram}" target="_blank">Instagram</a></div>` : ''}
         <p class="small muted" style="margin-top:.75rem;">${r.notes}</p>
         <div class="small" style="margin-top:.75rem;"><strong>Booking path:</strong> ${r.booked_via || 'Four Seasons concierge'}</div>
       `)).join('')}
