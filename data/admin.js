@@ -16,7 +16,7 @@ export const financials = {
 
 export const decisions = [
   { id: 1, title: 'Approve £7,515 transport & greeter add-on', status: 'open', options: null, resolution: null, note: 'Clarify £500 discrepancy vs original £8,015 quote — ask Martina' },
-  { id: 2, title: 'Apr 28 Edinburgh free day activity', status: 'open', options: ['A: Stirling Castle', 'B: Scottish stately home + hosted lunch', 'C: Royal Yacht Britannia + leisure'], resolution: null, note: null },
+  { id: 2, title: 'Apr 28 Edinburgh free day activity', status: 'open', options: ['A: Stirling Castle + Trossachs + Loch Lomond', 'B: Scottish stately home + hosted lunch', 'C: Royal Yacht Britannia + leisure'], resolution: null, note: 'NoteWorthy quote for full day driver/guide + private Stirling Castle tour: £4,810.00' },
   { id: 3, title: 'Book Warner Bros Harry Potter — May 3 (Allyson & Sarah)', status: 'open', options: null, resolution: null, note: 'Transport options via Golden Tours / GetYourGuide / Viator' },
   { id: 4, title: 'May 3 rest of group activity', status: 'open', options: ['A: Cotswolds day trip', 'B: Oxford + Blenheim Palace'], resolution: null, note: null },
   { id: 5, title: 'Four Seasons room upgrade decision', status: 'open', options: ['Keep current: 3BR $43,720 / 2.19M pts', 'Upgrade: 4BR Royal Tower Bridge $56,742 / 2.84M pts'], resolution: null, note: 'Free cancellation until Apr 28' }
