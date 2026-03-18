@@ -141,6 +141,7 @@ function renderTimelineItem(item) {
         ${item.desc ? `<div class="small muted">${item.desc}</div>` : ''}
         ${item.why ? `<div class="small" style="margin-top:.35rem;"><strong>Why it’s special:</strong> ${item.why}</div>` : ''}
         ${item.learn_more ? `<div class="small" style="margin-top:.45rem;"><a href="${item.learn_more}" target="_blank">Learn more</a></div>` : ''}
+        ${item.reservation_id ? `<div class="small" style="margin-top:.45rem;"><a href="?reservation=${item.reservation_id}#reservations">View reservation details</a></div>` : ''}
       </div>
     </div>
   </div>`;
@@ -343,20 +344,23 @@ function reservationsHTML() {
   return `
     <div class="section-head"><h2>Reservations</h2><p>Confirmed dinner reservations for the trip.</p></div>
     <div class="grid two">
-      ${mergedReservations.map(r => card(r.restaurant, `
-        <div class="muted">${fmtDateTime(r.date)} · ${r.time}${r.area ? ` · ${r.area}` : ''}</div>
-        <div class="small" style="margin-top:.35rem;">${r.cuisine || ''}${r.in_hotel ? ' · In-hotel' : ''}</div>
-        <div class="${statusClass(r.status)}" style="margin-top:.5rem;">${r.status}</div>
-        <div class="small" style="margin-top:.6rem;">Guests: ${r.guests}</div>
-        ${r.address ? `<div class="small"><a href="${r.maps_url}" target="_blank">${r.address}</a></div>` : ''}
-        ${r.phone ? `<div class="small"><a href="tel:${r.phone}">${r.phone}</a></div>` : ''}
-        ${r.website ? `<div class="small"><a href="${r.website}" target="_blank">Website</a></div>` : ''}
-        ${r.menu_url ? `<div class="small"><a href="${r.menu_url}" target="_blank">Menu</a></div>` : ''}
-        ${r.instagram ? `<div class="small"><a href="${r.instagram}" target="_blank">Instagram</a></div>` : ''}
-        ${r.popular_dishes?.length ? `<div class="small" style="margin-top:.75rem;"><strong>Popular dishes:</strong> ${r.popular_dishes.join(' · ')}</div>` : ''}
-        <p class="small muted" style="margin-top:.75rem;">${r.notes}</p>
-        <div class="small" style="margin-top:.75rem;"><strong>Booking path:</strong> ${r.booked_via || 'Four Seasons concierge'}</div>
-      `)).join('')}
+      ${mergedReservations.map(r => `
+        <article id="reservation-${r.id}" class="card reservation-card">
+          <h3>${r.restaurant}</h3>
+          <div class="muted">${fmtDateTime(r.date)} · ${r.time}${r.area ? ` · ${r.area}` : ''}</div>
+          <div class="small" style="margin-top:.35rem;">${r.cuisine || ''}${r.in_hotel ? ' · In-hotel' : ''}</div>
+          <div class="${statusClass(r.status)}" style="margin-top:.5rem;">${r.status}</div>
+          <div class="small" style="margin-top:.6rem;">Guests: ${r.guests}</div>
+          ${r.address ? `<div class="small"><a href="${r.maps_url}" target="_blank">${r.address}</a></div>` : ''}
+          ${r.phone ? `<div class="small"><a href="tel:${r.phone}">${r.phone}</a></div>` : ''}
+          ${r.website ? `<div class="small"><a href="${r.website}" target="_blank">Website</a></div>` : ''}
+          ${r.menu_url ? `<div class="small"><a href="${r.menu_url}" target="_blank">Menu</a></div>` : ''}
+          ${r.instagram ? `<div class="small"><a href="${r.instagram}" target="_blank">Instagram</a></div>` : ''}
+          ${r.popular_dishes?.length ? `<div class="small" style="margin-top:.75rem;"><strong>Popular dishes:</strong> ${r.popular_dishes.join(' · ')}</div>` : ''}
+          <p class="small muted" style="margin-top:.75rem;">${r.notes}</p>
+          <div class="small" style="margin-top:.75rem;"><strong>Booking path:</strong> ${r.booked_via || 'Four Seasons concierge'}</div>
+        </article>
+      `).join('')}
     </div>
   `;
 }
@@ -486,6 +490,7 @@ function renderAll() {
   bindDiscoverFilters();
   bindSubmissionAdminActions();
   bindDayToggles();
+  scrollToReservationFromUrl();
 }
 
 function bindDiscoverFilters() {
@@ -680,6 +685,15 @@ function bindDayToggles() {
     card.classList.toggle('expanded');
     btn.textContent = card.classList.contains('expanded') ? 'Tap to collapse' : 'Tap to expand';
   }));
+}
+
+function scrollToReservationFromUrl() {
+  const params = new URLSearchParams(location.search);
+  const reservationId = params.get('reservation');
+  if (!reservationId || location.hash !== '#reservations') return;
+  const target = document.getElementById(`reservation-${reservationId}`);
+  if (!target) return;
+  setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }), 150);
 }
 
 function updateCountdown() {
