@@ -106,6 +106,8 @@ function renderTimelineItem(item) {
       <div class="timeline-content">
         <strong>${item.name}</strong>
         ${item.desc ? `<div class="small muted">${item.desc}</div>` : ''}
+        ${item.why ? `<div class="small" style="margin-top:.35rem;"><strong>Why it’s special:</strong> ${item.why}</div>` : ''}
+        ${item.learn_more ? `<div class="small" style="margin-top:.45rem;"><a href="${item.learn_more}" target="_blank">Learn more</a></div>` : ''}
       </div>
     </div>
   </div>`;
