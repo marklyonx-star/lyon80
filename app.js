@@ -194,7 +194,7 @@ function flightsHTML() {
           <div class="small muted" style="margin-top:.55rem;">${detailedFlightLine(f)}</div>
           ${f.alt_refs?.length ? `<div class="small" style="margin-top:.65rem;"><strong>Separate refs:</strong> ${f.alt_refs.map(r => `${r.traveler} (${r.ref})`).join(' · ')}</div>` : ''}
         `, f.type)).join('')}
-        ${card('LNER Train', `<div><strong>${data.train.route}</strong></div><div class="muted">Wednesday, April 29 · 9:00am → 1:30pm</div><div class="small">Coach ${data.train.coach} · Seats ${data.train.seats.join(', ')}</div><p class="small muted" style="margin-top:.75rem;">${data.train.notes}</p>`, 'Rail')}
+        ${card('LNER Train', `<div><strong>${data.train.route}</strong></div><div class="muted">Wednesday, April 29 · Departs 9:00am · Arrives London King's Cross · 1:30pm</div><div class="small">Coach ${data.train.coach} · Seats ${data.train.seats.join(', ')}</div><p class="small muted" style="margin-top:.75rem;">${data.train.notes}</p>`, 'Rail')}
       </div>
       <article class="card">
         <div class="label">Seat Assignments</div>
@@ -232,7 +232,8 @@ function hotelsHTML() {
                 <div class="hotel-card-meta">
                   <h3>${h.name}</h3>
                   <div class="hotel-card-subtitle">${h.city}</div>
-                  <div class="hotel-card-dates">${fmtDateTime(h.check_in)} → ${fmtDateTime(h.check_out)} · Check-in ${fmtTime(h.check_in_time || '15:00')} · Check-out ${fmtTime(h.check_out_time || '11:00')}</div>
+                  <div class="hotel-card-dates">Check-in ${fmtDateTime(h.check_in)}${h.check_in_time ? ` · ${fmtTime(h.check_in_time)}` : ''}</div>
+                  <div class="hotel-card-dates">Check-out ${fmtDateTime(h.check_out)}${h.check_out_time ? ` · ${fmtTime(h.check_out_time)}` : ''}</div>
                 </div>
               </div>
             ` : `

@@ -47,7 +47,9 @@ export const hotels = [
     instagram: 'https://www.instagram.com/frasersuitesedinburgh/',
     phone: '+44 131 221 7200',
     check_in: '2026-04-25',
+    check_in_time: '15:00',
     check_out: '2026-04-29',
+    check_out_time: '11:00',
     nights: 4,
     rooms: [
       { conf: '52611SF099762', type: 'Courant Suite', category: 'Bespoke Suite', room_url: 'https://www.frasershospitality.com/en/united-kingdom/edinburgh/fraser-suites-edinburgh/accommodation/courant-suite/', description: 'Bespoke suite in the Edinburgh hotel collection.' },
@@ -68,7 +70,9 @@ export const hotels = [
     instagram: 'https://www.instagram.com/fstowerbridge/',
     phone: '+44 20 3011 2121',
     check_in: '2026-04-29T15:00',
+    check_in_time: '15:00',
     check_out: '2026-05-04T12:00',
+    check_out_time: '12:00',
     nights: 5,
     free_cancellation_until: '2026-04-28',
     rooms: [
