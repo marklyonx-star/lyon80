@@ -72,7 +72,7 @@ export const hotels = [
     nights: 5,
     free_cancellation_until: '2026-04-28',
     rooms: [
-      { stay_id: 1, trip_id: '1012641565', conf: '71885SF052202', type: 'Three-Bedroom Tower-View Residence', size_sqft: 3618, beds: 'Three king beds, one rollaway bed', primary_guest: 'Mark Joseph Lyon', booked: '2026-01-25', room_url: 'https://www.fourseasons.com/towerbridge/accommodations/residences/three-bedroom-tower-view-hotel-residence/', description: 'Two-storey VIP residence with private terrace and views of the Tower of London and Tower Bridge.' },
+      { stay_id: 1, trip_id: '1012641565', conf: '71885SF052202', type: 'Three-Bedroom Tower-View Residence', size_sqft: 3618, beds: 'Three king beds', primary_guest: 'Mark Joseph Lyon', booked: '2026-01-25', room_url: 'https://www.fourseasons.com/towerbridge/accommodations/residences/three-bedroom-tower-view-hotel-residence/', description: 'Two-storey VIP residence with private terrace and views of the Tower of London and Tower Bridge.' },
       { stay_id: 2, trip_id: '1013604114', conf: '71885SF052984', type: 'Tower Bridge Executive Hotel Room', size_sqft: 573, beds: 'One king or two twin beds, sofabed', primary_guest: 'Katie Schaar Lyon', booked: '2026-02-16', room_url: 'https://www.fourseasons.com/towerbridge/accommodations/specialty-rooms/executive-room/', description: 'Executive room with separate living area and contemporary honey-oak finishes.' }
     ],
     benefits: ['Daily breakfast for 2', '$100 property credit per room', 'Room upgrade at check-in, if available', 'Early check-in / late check-out, if available', 'WiFi included', 'Welcome amenity'],

@@ -35,11 +35,13 @@ function fmtDate(dateStr) {
 function fmtDateTime(value) {
   if (!value) return '';
   const hasTime = String(value).includes('T');
+  if (!hasTime) {
+    const [y, m, d] = String(value).split('-').map(Number);
+    const date = new Date(y, (m || 1) - 1, d || 1);
+    return date.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
+  }
   const d = new Date(value);
   if (Number.isNaN(d.getTime())) return value;
-  if (!hasTime) {
-    return d.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
-  }
   return d.toLocaleString(undefined, {
     weekday: 'short',
     month: 'short',
@@ -115,7 +117,7 @@ function renderTimelineItem(item) {
 
 function itineraryHTML() {
   return `
-    <div class="section-head"><h2>Itinerary</h2><p>The highest-value tab for guests: day-by-day timing, movement, and what’s still undecided.</p></div>
+    <div class="section-head"><h2>Itinerary</h2><p>Day by day.</p></div>
     <div class="grid">
       ${data.itinerary.map(day => `
         <article class="card">
@@ -167,7 +169,7 @@ function flightsHTML() {
           <div class="small muted" style="margin-top:.55rem;">${detailedFlightLine(f)}</div>
           ${f.alt_refs?.length ? `<div class="small" style="margin-top:.65rem;"><strong>Separate refs:</strong> ${f.alt_refs.map(r => `${r.traveler} (${r.ref})`).join(' · ')}</div>` : ''}
         `, f.type)).join('')}
-        ${card('LNER Train', `<div><strong>${data.train.route}</strong></div><div class="muted">${data.train.date} · ${data.train.departs} → ${data.train.arrives}</div><div class="small">Coach ${data.train.coach} · Seats ${data.train.seats.join(', ')}</div><p class="small muted" style="margin-top:.75rem;">${data.train.notes}</p>`, 'Rail')}
+        ${card('LNER Train', `<div><strong>${data.train.route}</strong></div><div class="muted">Wednesday, April 29 · 9:00am → 1:30pm</div><div class="small">Coach ${data.train.coach} · Seats ${data.train.seats.join(', ')}</div><p class="small muted" style="margin-top:.75rem;">${data.train.notes}</p>`, 'Rail')}
       </div>
       <article class="card">
         <div class="label">Seat Assignments</div>
@@ -188,7 +190,7 @@ function flightsHTML() {
 
 function hotelsHTML() {
   return `
-    <div class="section-head"><h2>Hotels</h2><p>Stay details guests will need on the ground: where, when, rooms, and how to contact the properties.</p></div>
+    <div class="section-head"><h2>Hotels</h2><p>Where you’re staying.</p></div>
     <div class="hotel-grid">
       ${data.hotels.map(h => {
         const adminHotel = data.financials.hotels.find(item => item.property.includes(h.city) || item.property.includes(h.name.split(' ')[0]));
@@ -294,7 +296,7 @@ function reservationsHTML() {
 function discoverHTML() {
   const categoryOptions = data.categories.map(c => `<option value="${c.id}">${c.label}</option>`).join('');
   return `
-    <div class="section-head"><h2>Discover</h2><p>The browse-heavy tab for free afternoons, dinner ideas, pubs, and day-trip inspiration.</p></div>
+    <div class="section-head"><h2>Discover</h2><p>Your curated guide to the best of Edinburgh and London.</p></div>
     <div class="filter-bar">
       <input id="discover-search" placeholder="Search recommendations" />
       <select id="discover-city"><option value="">All cities</option><option>Edinburgh</option><option>London</option><option>Day Trip</option></select>
@@ -666,8 +668,8 @@ window.addEventListener('hashchange', () => activateTab(location.hash));
 renderAll();
 setAdminState(localStorage.getItem('lyon80_admin') === 'true');
 if (!location.hash) {
-  history.replaceState(null, '', '#overview');
+  history.replaceState(null, '', '#itinerary');
 }
-activateTab(location.hash || '#overview');
+activateTab(location.hash || '#itinerary');
 updateCountdown();
 setInterval(updateCountdown, 60000);
