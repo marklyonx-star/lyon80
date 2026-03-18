@@ -52,6 +52,17 @@ function fmtDateTime(value) {
   });
 }
 
+function fmtTime(value) {
+  if (!value) return '';
+  const [hourRaw, minuteRaw = '00'] = String(value).split(':');
+  const hour = Number(hourRaw);
+  const minute = String(minuteRaw).padStart(2, '0');
+  if (Number.isNaN(hour)) return value;
+  const suffix = hour >= 12 ? 'pm' : 'am';
+  const displayHour = hour % 12 || 12;
+  return `${displayHour}:${minute}${suffix}`;
+}
+
 function statusClass(status) {
   if (!status) return 'status';
   return `status ${String(status).toLowerCase()}`;
@@ -118,25 +129,39 @@ function renderTimelineItem(item) {
 function itineraryHTML() {
   return `
     <div class="section-head"><h2>Itinerary</h2><p>Day by day.</p></div>
-    <div class="grid">
+    <div class="grid itinerary-grid">
       ${data.itinerary.map(day => `
-        <article class="card">
-          <div class="row">
-            <div>
-              <div class="label">${day.display_date}</div>
-              <h3>${day.title}</h3>
-              <div class="muted">${day.city}${day.overnight ? ` · Overnight: ${day.overnight}` : ''}</div>
+        <article class="card day-card ${day.heroImage ? 'day-card-cinematic' : ''} ${day.heroImage ? 'expanded' : ''}">
+          ${day.heroImage ? `
+            <div class="day-card-hero" style="background-image: linear-gradient(to top, rgba(26,39,68,0.72), rgba(26,39,68,0.0)), url('${day.heroImage}');">
+              <div class="day-card-meta">
+                <div class="day-card-date">${day.display_date.toUpperCase()}</div>
+                <h3>${day.title}</h3>
+                <div class="day-card-subtitle">${day.city}${day.overnight ? ` · ${day.overnight}` : ''}</div>
+              </div>
+              <div class="${statusClass(day.status)} day-card-status">${day.status}</div>
             </div>
-            <div class="${statusClass(day.status)}">${day.status}</div>
-          </div>
-          <div style="margin-top:0.85rem;" class="list">
-            ${day.items.map(renderTimelineItem).join('')}
-          </div>
-          ${day.decision ? `
-            <div class="option-list">
-              ${day.decision.options.map(opt => `<div class="option-card"><strong>${opt.label}. ${opt.name}</strong><div class="small muted">${opt.desc}</div></div>`).join('')}
+            <button class="day-toggle secondary" type="button">Tap to expand</button>
+          ` : `
+            <div class="row">
+              <div>
+                <div class="label">${day.display_date}</div>
+                <h3>${day.title}</h3>
+                <div class="muted">${day.city}${day.overnight ? ` · Overnight: ${day.overnight}` : ''}</div>
+              </div>
+              <div class="${statusClass(day.status)}">${day.status}</div>
             </div>
-          ` : ''}
+          `}
+          <div class="day-card-body" style="margin-top:${day.heroImage ? '0' : '0.85rem'};" class="list">
+            <div class="list" style="padding:${day.heroImage ? '20px' : '0'};">
+              ${day.items.map((item, idx) => `${renderTimelineItem(item)}${day.secondaryImage && idx === 0 ? `<div class="secondary-image-card"><img src="${day.secondaryImage}" alt="${day.title} secondary view" /></div>` : ''}`).join('')}
+            </div>
+            ${day.decision ? `
+              <div class="option-list" style="padding: 0 20px 20px;">
+                ${day.decision.options.map(opt => `<div class="option-card"><strong>${opt.label}. ${opt.name}</strong><div class="small muted">${opt.desc}</div></div>`).join('')}
+              </div>
+            ` : ''}
+          </div>
         </article>
       `).join('')}
     </div>
@@ -189,32 +214,50 @@ function flightsHTML() {
 }
 
 function hotelsHTML() {
+  const hotelHeroMap = {
+    'fraser-suites-edinburgh': './assets/fraser-suites.jpeg',
+    'four-seasons-london': './assets/Fourseasons.jpeg'
+  };
+
   return `
     <div class="section-head"><h2>Hotels</h2><p>Where you’re staying.</p></div>
     <div class="hotel-grid">
       ${data.hotels.map(h => {
         const adminHotel = data.financials.hotels.find(item => item.property.includes(h.city) || item.property.includes(h.name.split(' ')[0]));
+        const heroImage = hotelHeroMap[h.id];
         return `
-          <article class="card">
-            <div class="label">${h.city}</div>
-            <h3>${h.name}</h3>
-            <div class="small inline-links" style="margin-top:.45rem;">
-              <a href="${h.maps_url}" target="_blank">Map</a>
-              <a href="${h.website}" target="_blank">Website</a>
-              ${h.instagram ? `<a href="${h.instagram}" target="_blank">Instagram</a>` : ''}
-              ${h.phone ? `<a href="tel:${(h.phone||'').replace(/\s+/g,'')}">${h.phone}</a>` : ''}
-            </div>
-            <div class="small muted" style="margin-top:.6rem;">Check-in ${fmtDateTime(h.check_in)} · Check-out ${fmtDateTime(h.check_out)} · ${h.nights} nights</div>
-            ${h.id === 'four-seasons-london' ? `<div class="small" style="margin-top:.45rem;"><strong>Room assignments:</strong> Sarah + Allyson stay in the Executive Room. Everyone else stays in the Three-Bedroom Tower-View Residence.</div>` : ''}
-            ${h.free_cancellation_until ? `<div class="small" style="margin-top:.5rem;"><strong>Free cancellation until Tue Apr 28, 2026 · 12:00am property local time</strong></div>` : ''}
-            <div class="hotel-room-list">
-              ${h.rooms.map(r => `<div class="hotel-room"><strong>${r.type}</strong><div class="small muted">Conf ${r.conf}</div>${r.beds ? `<div class="small muted">${r.beds}</div>` : ''}${r.description ? `<div class="small muted">${r.description}</div>` : ''}${r.room_url ? `<div class="small"><a href="${r.room_url}" target="_blank">Room details</a></div>` : ''}</div>`).join('')}
-            </div>
-            ${h.benefits?.length ? `<div class="list" style="margin-top:.8rem;">${h.benefits.map(b => `<div class="small">• ${b}</div>`).join('')}</div>` : ''}
-            <div class="card admin-only" style="margin-top:1rem; background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.2);">
-              <div class="label">Admin Cost Overlay</div>
-              <div class="small muted">Booked via: ${h.booked_via}</div>
-              ${adminHotel ? `<div class="small" style="margin-top:.5rem;">Cash value: ${adminHotel.cash_value ? `$${adminHotel.cash_value.toLocaleString()}` : 'TBD'}</div><div class="small">Points: ${adminHotel.points ? adminHotel.points.toLocaleString() : 'TBD'}</div>` : '<div class="small">Cash value / points: TBD</div>'}
+          <article class="card hotel-card ${heroImage ? 'hotel-card-cinematic' : ''}">
+            ${heroImage ? `
+              <div class="hotel-card-hero" style="background-image: linear-gradient(to top, rgba(26,39,68,0.72), rgba(26,39,68,0.0)), url('${heroImage}');">
+                <div class="hotel-card-meta">
+                  <h3>${h.name}</h3>
+                  <div class="hotel-card-subtitle">${h.city}</div>
+                  <div class="hotel-card-dates">${fmtDateTime(h.check_in)} → ${fmtDateTime(h.check_out)} · Check-in ${fmtTime(h.check_in_time || '15:00')} · Check-out ${fmtTime(h.check_out_time || '11:00')}</div>
+                </div>
+              </div>
+            ` : `
+              <div class="label">${h.city}</div>
+              <h3>${h.name}</h3>
+            `}
+            <div class="hotel-card-body">
+              <div class="small inline-links" style="margin-top:.45rem;">
+                <a href="${h.maps_url}" target="_blank">Map</a>
+                <a href="${h.website}" target="_blank">Website</a>
+                ${h.instagram ? `<a href="${h.instagram}" target="_blank">Instagram</a>` : ''}
+                ${h.phone ? `<a href="tel:${(h.phone||'').replace(/\s+/g,'')}">${h.phone}</a>` : ''}
+              </div>
+              ${!heroImage ? `<div class="small muted" style="margin-top:.6rem;">Check-in ${fmtDateTime(h.check_in)} · Check-out ${fmtDateTime(h.check_out)} · ${h.nights} nights</div>` : `<div class="small muted" style="margin-top:.6rem;">${h.nights} nights</div>`}
+              ${h.id === 'four-seasons-london' ? `<div class="small" style="margin-top:.45rem;"><strong>Room assignments:</strong> Sarah + Allyson stay in the Executive Room. Everyone else stays in the Three-Bedroom Tower-View Residence.</div>` : ''}
+              ${h.free_cancellation_until ? `<div class="small" style="margin-top:.5rem;"><strong>Free cancellation until Tue Apr 28, 2026 · 12:00am property local time</strong></div>` : ''}
+              <div class="hotel-room-list">
+                ${h.rooms.map(r => `<div class="hotel-room"><strong>${r.type}</strong><div class="small muted">Conf ${r.conf}</div>${r.beds ? `<div class="small muted">${r.beds}</div>` : ''}${r.description ? `<div class="small muted">${r.description}</div>` : ''}${r.room_url ? `<div class="small"><a href="${r.room_url}" target="_blank">Room details</a></div>` : ''}</div>`).join('')}
+              </div>
+              ${h.benefits?.length ? `<div class="list" style="margin-top:.8rem;">${h.benefits.map(b => `<div class="small">• ${b}</div>`).join('')}</div>` : ''}
+              <div class="card admin-only" style="margin-top:1rem; background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.2);">
+                <div class="label">Admin Cost Overlay</div>
+                <div class="small muted">Booked via: ${h.booked_via}</div>
+                ${adminHotel ? `<div class="small" style="margin-top:.5rem;">Cash value: ${adminHotel.cash_value ? `$${adminHotel.cash_value.toLocaleString()}` : 'TBD'}</div><div class="small">Points: ${adminHotel.points ? adminHotel.points.toLocaleString() : 'TBD'}</div>` : '<div class="small">Cash value / points: TBD</div>'}
+              </div>
             </div>
           </article>
         `;
@@ -417,6 +460,7 @@ function renderAll() {
   if (submissionsBadge) submissionsBadge.textContent = String(pendingSubmissions.length);
   bindDiscoverFilters();
   bindSubmissionAdminActions();
+  bindDayToggles();
 }
 
 function bindDiscoverFilters() {
@@ -601,6 +645,15 @@ function bindSubmissionAdminActions() {
     pendingSubmissions = pendingSubmissions.filter((_, i) => i !== idx);
     localStorage.setItem('lyon80_pending', JSON.stringify(pendingSubmissions));
     renderAll();
+  }));
+}
+
+function bindDayToggles() {
+  document.querySelectorAll('.day-toggle').forEach(btn => btn.addEventListener('click', () => {
+    const card = btn.closest('.day-card');
+    if (!card) return;
+    card.classList.toggle('expanded');
+    btn.textContent = card.classList.contains('expanded') ? 'Tap to collapse' : 'Tap to expand';
   }));
 }
 

@@ -226,6 +226,50 @@ button, input, select { font: inherit; }
 .booking-chip.alt { background: rgba(201,168,76,0.18); color: var(--navy); }
 .option-list { display: grid; gap: 0.6rem; margin-top: 0.9rem; }
 .option-card { border: 1px solid rgba(26,39,68,0.1); background: rgba(255,255,255,0.6); border-radius: var(--radius-md); padding: 0.8rem 0.9rem; }
+.itinerary-grid { gap: 24px; }
+.day-card { overflow: hidden; }
+.day-card-hero {
+  position: relative;
+  min-height: 280px;
+  background-size: cover;
+  background-position: center;
+  margin: -20px -20px 0;
+  display: flex;
+  align-items: end;
+  padding: 20px;
+}
+.day-card-meta { color: white; max-width: 80%; }
+.day-card-date { font-family: var(--font-body); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-light); margin-bottom: 0.35rem; }
+.day-card-meta h3 { font-size: 32px; color: white; }
+.day-card-subtitle { font-size: 13px; color: rgba(255,255,255,0.8); }
+.day-card-status { position: absolute; top: 16px; right: 16px; }
+.day-toggle { display: none; margin: 12px 20px 0; }
+.secondary-image-card { margin: 0 20px 20px; border-radius: 12px; overflow: hidden; }
+.secondary-image-card img { width: 100%; display: block; aspect-ratio: 16 / 6; object-fit: cover; }
+.hotel-card { overflow: hidden; }
+.hotel-card-hero {
+  position: relative;
+  min-height: 240px;
+  background-size: cover;
+  background-position: center;
+  margin: -20px -20px 0;
+  display: flex;
+  align-items: end;
+  padding: 20px;
+}
+.hotel-card-meta { color: white; max-width: 88%; }
+.hotel-card-meta h3 { color: white; font-size: 32px; }
+.hotel-card-subtitle,
+.hotel-card-dates {
+  font-family: var(--font-body);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+}
+.hotel-card-subtitle { margin-top: 0.35rem; }
+.hotel-card-dates { margin-top: 0.25rem; }
+.hotel-card-body { padding-top: 20px; }
 .hotel-room-list { display: grid; gap: 0.5rem; margin-top: 0.8rem; }
 .hotel-room { padding: 0.7rem 0.8rem; border-radius: var(--radius-md); background: var(--cream-dark); }
 .traveler-avatar { width: 52px; height: 52px; border-radius: 999px; background: var(--navy); color: white; display: grid; place-items: center; font-weight: 600; font-size: 1rem; margin-bottom: 0.75rem; }
@@ -375,6 +419,13 @@ button.secondary {
   .seat-table-wrapper { overflow-x: auto; }
   .seat-table { white-space: nowrap; min-width: 560px; }
   #discover-list { grid-template-columns: 1fr; }
+  .day-card-hero { min-height: 200px; }
+  .day-card-meta h3 { font-size: 24px; }
+  .hotel-card-hero { min-height: 200px; }
+  .hotel-card-meta h3 { font-size: 24px; }
+  .day-toggle { display: inline-flex; }
+  .day-card-cinematic .day-card-body { display: none; }
+  .day-card-cinematic.expanded .day-card-body { display: block; }
 }
 
 @media (min-width: 900px) {
