@@ -32,6 +32,24 @@ function fmtDate(dateStr) {
   return new Date(dateStr).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
 }
 
+function fmtDateTime(value) {
+  if (!value) return '';
+  const hasTime = String(value).includes('T');
+  const d = new Date(value);
+  if (Number.isNaN(d.getTime())) return value;
+  if (!hasTime) {
+    return d.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
+  }
+  return d.toLocaleString(undefined, {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true
+  });
+}
+
 function statusClass(status) {
   if (!status) return 'status';
   return `status ${String(status).toLowerCase()}`;
@@ -182,7 +200,8 @@ function hotelsHTML() {
               ${h.instagram ? `<a href="${h.instagram}" target="_blank">Instagram</a>` : ''}
               ${h.phone ? `<a href="tel:${(h.phone||'').replace(/\s+/g,'')}">${h.phone}</a>` : ''}
             </div>
-            <div class="small muted" style="margin-top:.6rem;">Check-in ${h.check_in} · Check-out ${h.check_out} · ${h.nights} nights</div>
+            <div class="small muted" style="margin-top:.6rem;">Check-in ${fmtDateTime(h.check_in)} · Check-out ${fmtDateTime(h.check_out)} · ${h.nights} nights</div>
+            ${h.id === 'four-seasons-london' ? `<div class="small" style="margin-top:.45rem;"><strong>Room assignments:</strong> Sarah + Allyson stay in the Executive Room. Everyone else stays in the Three-Bedroom Tower-View Residence.</div>` : ''}
             ${h.free_cancellation_until ? `<div class="small" style="margin-top:.5rem;"><strong>Free cancellation until Tue Apr 28, 2026 · 12:00am property local time</strong></div>` : ''}
             <div class="hotel-room-list">
               ${h.rooms.map(r => `<div class="hotel-room"><strong>${r.type}</strong><div class="small muted">Conf ${r.conf}</div>${r.beds ? `<div class="small muted">${r.beds}</div>` : ''}${r.description ? `<div class="small muted">${r.description}</div>` : ''}${r.room_url ? `<div class="small"><a href="${r.room_url}" target="_blank">Room details</a></div>` : ''}</div>`).join('')}
