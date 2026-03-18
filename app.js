@@ -179,12 +179,13 @@ function hotelsHTML() {
             <div class="small inline-links" style="margin-top:.45rem;">
               <a href="${h.maps_url}" target="_blank">Map</a>
               <a href="${h.website}" target="_blank">Website</a>
+              ${h.instagram ? `<a href="${h.instagram}" target="_blank">Instagram</a>` : ''}
               ${h.phone ? `<a href="tel:${(h.phone||'').replace(/\s+/g,'')}">${h.phone}</a>` : ''}
             </div>
             <div class="small muted" style="margin-top:.6rem;">Check-in ${h.check_in} · Check-out ${h.check_out} · ${h.nights} nights</div>
             ${h.free_cancellation_until ? `<div class="small" style="margin-top:.5rem;"><strong>Free cancellation until Tue Apr 28, 2026 · 12:00am property local time</strong></div>` : ''}
             <div class="hotel-room-list">
-              ${h.rooms.map(r => `<div class="hotel-room"><strong>${r.type}</strong><div class="small muted">Conf ${r.conf}</div>${r.beds ? `<div class="small muted">${r.beds}</div>` : ''}</div>`).join('')}
+              ${h.rooms.map(r => `<div class="hotel-room"><strong>${r.type}</strong><div class="small muted">Conf ${r.conf}</div>${r.beds ? `<div class="small muted">${r.beds}</div>` : ''}${r.description ? `<div class="small muted">${r.description}</div>` : ''}${r.room_url ? `<div class="small"><a href="${r.room_url}" target="_blank">Room details</a></div>` : ''}</div>`).join('')}
             </div>
             ${h.benefits?.length ? `<div class="list" style="margin-top:.8rem;">${h.benefits.map(b => `<div class="small">• ${b}</div>`).join('')}</div>` : ''}
             <div class="card admin-only" style="margin-top:1rem; background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.2);">

@@ -43,16 +43,17 @@ export const hotels = [
     city: 'Edinburgh',
     address: '12-26 St Giles Street, Edinburgh EH1 1PT',
     maps_url: 'https://maps.google.com/?q=Fraser+Suites+Edinburgh',
-    website: 'https://www.fraserhospitality.com',
+    website: 'https://www.frasershospitality.com/en/united-kingdom/edinburgh/fraser-suites-edinburgh/',
+    instagram: 'https://www.instagram.com/frasersuitesedinburgh/',
     phone: '+44 131 221 7200',
     check_in: '2026-04-25',
     check_out: '2026-04-29',
     nights: 4,
     rooms: [
-      { conf: '52611SF099762', type: 'Courant Suite', category: 'Bespoke Suite' },
-      { conf: '52611SF099763', type: 'Observatory Suite', category: 'Bespoke Suite' },
-      { conf: '52611SF099764', type: 'Princes Suite', category: 'Bespoke Suite' },
-      { conf: '52611SF099765', type: '1-Bedroom Premier City View Apartment', category: 'Apartment' }
+      { conf: '52611SF099762', type: 'Courant Suite', category: 'Bespoke Suite', room_url: 'https://www.frasershospitality.com/en/united-kingdom/edinburgh/fraser-suites-edinburgh/accommodation/courant-suite/', description: 'Bespoke suite in the Edinburgh hotel collection.' },
+      { conf: '52611SF099763', type: 'Observatory Suite', category: 'Bespoke Suite', room_url: 'https://www.frasershospitality.com/en/united-kingdom/edinburgh/fraser-suites-edinburgh/accommodation/observatory-suite/', description: '42 sqm suite with exclusive balcony views over Calton Hill and the Old Town.' },
+      { conf: '52611SF099764', type: 'Princes Suite', category: 'Bespoke Suite', room_url: 'https://www.frasershospitality.com/en/united-kingdom/edinburgh/fraser-suites-edinburgh/accommodation/princes-suite/', description: 'Bespoke suite in the Edinburgh hotel collection.' },
+      { conf: '52611SF099765', type: 'One Bedroom Apartment with City Views', category: 'One Bedroom Premier City View', room_url: 'https://www.frasershospitality.com/en/united-kingdom/edinburgh/fraser-suites-edinburgh/accommodation/', description: 'One-bedroom apartment with city views.' }
     ],
     benefits: [],
     booked_via: 'Chase Travel — Ultimate Rewards Points'
@@ -63,15 +64,16 @@ export const hotels = [
     city: 'London',
     address: '10 Trinity Square, London, EC3N 4AJ',
     maps_url: 'https://maps.google.com/?q=Four+Seasons+Hotel+London+Tower+Bridge',
-    website: 'https://www.fourseasons.com/londonatparklanetowerbridge/',
+    website: 'https://www.fourseasons.com/towerbridge/',
+    instagram: 'https://www.instagram.com/fstowerbridge/',
     phone: '+44 20 3011 2121',
     check_in: '2026-04-29T15:00',
     check_out: '2026-05-04T12:00',
     nights: 5,
     free_cancellation_until: '2026-04-28',
     rooms: [
-      { stay_id: 1, trip_id: '1012641565', conf: '71885SF052202', type: '3-Bedroom Tower View Hotel Residence', size_sqft: 3618, beds: '3 King', primary_guest: 'Mark Joseph Lyon', booked: '2026-01-25' },
-      { stay_id: 2, trip_id: '1013604114', conf: '71885SF052984', type: 'Executive Room, 2 Twin Beds', size_sqft: 573, beds: '2 Twin', primary_guest: 'Katie Schaar Lyon', booked: '2026-02-16' }
+      { stay_id: 1, trip_id: '1012641565', conf: '71885SF052202', type: 'Three-Bedroom Tower-View Residence', size_sqft: 3618, beds: 'Three king beds, one rollaway bed', primary_guest: 'Mark Joseph Lyon', booked: '2026-01-25', room_url: 'https://www.fourseasons.com/towerbridge/accommodations/residences/three-bedroom-tower-view-hotel-residence/', description: 'Two-storey VIP residence with private terrace and views of the Tower of London and Tower Bridge.' },
+      { stay_id: 2, trip_id: '1013604114', conf: '71885SF052984', type: 'Tower Bridge Executive Hotel Room', size_sqft: 573, beds: 'One king or two twin beds, sofabed', primary_guest: 'Katie Schaar Lyon', booked: '2026-02-16', room_url: 'https://www.fourseasons.com/towerbridge/accommodations/specialty-rooms/executive-room/', description: 'Executive room with separate living area and contemporary honey-oak finishes.' }
     ],
     benefits: ['Daily breakfast for 2', '$100 property credit per room', 'Room upgrade at check-in, if available', 'Early check-in / late check-out, if available', 'WiFi included', 'Welcome amenity'],
     booked_via: 'Chase Travel — Ultimate Rewards Points'
