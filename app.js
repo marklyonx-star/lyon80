@@ -36,6 +36,13 @@ function fmtDate(dateStr) {
   return new Date(dateStr).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
 }
 
+function fmtLongDate(dateStr) {
+  if (!dateStr) return '';
+  const [y, m, d] = String(dateStr).split('-').map(Number);
+  const date = new Date(y, (m || 1) - 1, d || 1);
+  return date.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
+}
+
 function fmtDateTime(value) {
   if (!value) return '';
   const hasTime = String(value).includes('T');
@@ -342,23 +349,37 @@ function contactsHTML() {
 
 function reservationsHTML() {
   return `
-    <div class="section-head"><h2>Reservations</h2><p>Confirmed dinner reservations for the trip.</p></div>
-    <div class="grid two">
+    <div class="section-head"><h2>Reservations</h2><p>Five evenings. Five restaurants. All confirmed for 7 guests.</p></div>
+    <div class="reservations-list">
       ${mergedReservations.map(r => `
-        <article id="reservation-${r.id}" class="card reservation-card">
-          <h3>${r.restaurant}</h3>
-          <div class="muted">${fmtDateTime(r.date)} · ${r.time}${r.area ? ` · ${r.area}` : ''}</div>
-          <div class="small" style="margin-top:.35rem;">${r.cuisine || ''}${r.in_hotel ? ' · In-hotel' : ''}</div>
-          <div class="${statusClass(r.status)}" style="margin-top:.5rem;">${r.status}</div>
-          <div class="small" style="margin-top:.6rem;">Guests: ${r.guests}</div>
-          ${r.address ? `<div class="small"><a href="${r.maps_url}" target="_blank">${r.address}</a></div>` : ''}
-          ${r.phone ? `<div class="small"><a href="tel:${r.phone}">${r.phone}</a></div>` : ''}
-          ${r.website ? `<div class="small"><a href="${r.website}" target="_blank">Website</a></div>` : ''}
-          ${r.menu_url ? `<div class="small"><a href="${r.menu_url}" target="_blank">Menu</a></div>` : ''}
-          ${r.instagram ? `<div class="small"><a href="${r.instagram}" target="_blank">Instagram</a></div>` : ''}
-          ${r.popular_dishes?.length ? `<div class="small" style="margin-top:.75rem;"><strong>Popular dishes:</strong> ${r.popular_dishes.join(' · ')}</div>` : ''}
-          <p class="small muted" style="margin-top:.75rem;">${r.notes}</p>
-          <div class="small" style="margin-top:.75rem;"><strong>Booking path:</strong> ${r.booked_via || 'Four Seasons concierge'}</div>
+        <article id="reservation-${r.id}" class="reservation-section">
+          <div class="reservation-hero" style="background-image: linear-gradient(to top, rgba(26,39,68,0.42), rgba(26,39,68,0.08)), url('${r.image}');"></div>
+          <div class="reservation-layout">
+            <div class="reservation-anchor">
+              <div class="reservation-flag">${withFlag(r.city)}</div>
+              <div class="reservation-date">${fmtLongDate(r.date)}</div>
+              <div class="reservation-time">${r.time}</div>
+              <div class="${statusClass(r.status)}" style="margin-top:.75rem;">${r.status}</div>
+            </div>
+            <div class="reservation-identity">
+              <h3>${r.restaurant}</h3>
+              <div class="reservation-meta">${r.cuisine} · ${r.price}</div>
+              <p class="reservation-description">${r.description}</p>
+              <div class="small"><strong>Why you’ll love it:</strong> ${r.why_love_it}</div>
+              <div class="small muted" style="margin-top:.45rem;">${r.location_note}${r.distance ? ` · ${r.distance}` : ''}</div>
+              <div class="small muted" style="margin-top:.75rem;"><strong>What to know before you go:</strong> ${r.what_to_know}</div>
+            </div>
+            <div class="reservation-practical">
+              ${r.address ? `<div class="small"><a href="${r.maps_url}" target="_blank">${r.address}</a></div>` : ''}
+              ${r.phone ? `<div class="small"><a href="tel:${r.phone}">${r.phone}</a></div>` : ''}
+              <div class="small inline-links" style="margin-top:.65rem;">
+                ${r.website ? `<a href="${r.website}" target="_blank">Website</a>` : ''}
+                ${r.menu_url ? `<a href="${r.menu_url}" target="_blank">Menu</a>` : ''}
+                ${r.instagram ? `<a href="${r.instagram}" target="_blank">Instagram</a>` : ''}
+              </div>
+              <div class="small" style="margin-top:.9rem;"><strong>Guests:</strong> ${r.guests}</div>
+            </div>
+          </div>
         </article>
       `).join('')}
     </div>
