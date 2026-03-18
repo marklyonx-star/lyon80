@@ -27,6 +27,10 @@ const adminCancel = document.getElementById('admin-cancel');
 const navTabs = document.getElementById('nav-tabs');
 
 const ADMIN_PASSWORD = 'lyon80admin';
+const FLAGS = {
+  scotland: '\u{1F3F4}\u{E0067}\u{E0062}\u{E0073}\u{E0063}\u{E0074}\u{E007F}',
+  england: '\u{1F3F4}\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E007F}'
+};
 
 function fmtDate(dateStr) {
   return new Date(dateStr).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
@@ -66,6 +70,22 @@ function fmtTime(value) {
 function statusClass(status) {
   if (!status) return 'status';
   return `status ${String(status).toLowerCase()}`;
+}
+
+function regionFlag(text = '') {
+  const value = String(text).toLowerCase();
+  if (value.includes('edinburgh') || value.includes('glamis') || value.includes('st andrews') || value.includes('edi')) {
+    return FLAGS.scotland;
+  }
+  if (value.includes('london') || value.includes('windsor') || value.includes('hampton') || value.includes('borough') || value.includes('tower') || value.includes('covent') || value.includes('lhr')) {
+    return FLAGS.england;
+  }
+  return '';
+}
+
+function withFlag(text = '') {
+  const flag = regionFlag(text);
+  return flag ? `<span class="country-flag">${flag}</span> ${text}` : text;
 }
 
 function card(title, body, subtitle = '') {
@@ -137,7 +157,7 @@ function itineraryHTML() {
               <div class="day-card-meta">
                 <div class="day-card-date">${day.display_date.toUpperCase()}</div>
                 <h3>${day.title}</h3>
-                <div class="day-card-subtitle">${day.city}${day.overnight ? ` · ${day.overnight}` : ''}</div>
+                <div class="day-card-subtitle">${withFlag(day.city)}${day.overnight ? ` · ${day.overnight}` : ''}</div>
               </div>
               <div class="${statusClass(day.status)} day-card-status">${day.status}</div>
             </div>
@@ -190,7 +210,7 @@ function flightsHTML() {
     <div class="flight-grid">
       <div class="grid two">
         ${data.flights.map(f => card(`${f.airline} ${f.flight_num}`, `
-          <div><strong>${f.origin.code} → ${f.destination.code}</strong></div>
+          <div><strong>${withFlag(f.origin.code)} → ${withFlag(f.destination.code)}</strong></div>
           <div class="small muted" style="margin-top:.55rem;">${detailedFlightLine(f)}</div>
           ${f.alt_refs?.length ? `<div class="small" style="margin-top:.65rem;"><strong>Separate refs:</strong> ${f.alt_refs.map(r => `${r.traveler} (${r.ref})`).join(' · ')}</div>` : ''}
         `, f.type)).join('')}
@@ -231,7 +251,7 @@ function hotelsHTML() {
               <div class="hotel-card-hero" style="background-image: linear-gradient(to top, rgba(26,39,68,0.72), rgba(26,39,68,0.0)), url('${heroImage}');">
                 <div class="hotel-card-meta">
                   <h3>${h.name}</h3>
-                  <div class="hotel-card-subtitle">${h.city}</div>
+                  <div class="hotel-card-subtitle">${withFlag(h.city)}</div>
                   <div class="hotel-card-dates">Check-in ${fmtDateTime(h.check_in)}${h.check_in_time ? ` · ${fmtTime(h.check_in_time)}` : ''}</div>
                   <div class="hotel-card-dates">Check-out ${fmtDateTime(h.check_out)}${h.check_out_time ? ` · ${fmtTime(h.check_out_time)}` : ''}</div>
                 </div>
